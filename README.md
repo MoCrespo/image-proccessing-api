@@ -47,6 +47,8 @@ Start the server
   npm start
 ```
 
+run locally with port 5000 and check API Reference below 
+
 
 ## Running Tests
 
