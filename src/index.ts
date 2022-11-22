@@ -1,12 +1,14 @@
 import express from 'express';
-// import sharp from 'sharp';
+import cors from 'cors';
+
+// routes
+import router from './routes/image.routes';
 
 const app = express();
+app.use(cors());
 const port = 5000;
 
-app.get('/api', (req, res) => {
-  res.send('Hello, World');
-});
+app.use('/', router);
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
