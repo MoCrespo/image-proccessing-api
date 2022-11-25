@@ -31,8 +31,8 @@ router.get('/api/images', async (req, res) => {
       if (typeof width === 'undefined' && typeof height === 'undefined') {
         return res.status(200).sendFile(imageFile);
       }
-      if (width.length == 0 || height.length == 0) {
-        throw 'width or height undefined';
+      if (!width || !height) {
+        throw 'please enter width and height';
       }
     } catch (err) {
       return res.status(400).send({ error: err });
@@ -43,18 +43,16 @@ router.get('/api/images', async (req, res) => {
         return res.sendFile(imageThumb);
       }
       if (!fs.existsSync(imageThumb)) {
-        console.log(width, height);
-        console.log(typeof width, typeof height);
-
         try {
           sharp(imageFile)
             .resize(parseInt(width), parseInt(height))
-            .toFile(imageThumb, (err) => {
-              if (err) throw err;
+            .toFile(imageThumb, () => {
               return res.status(200).sendFile(imageThumb);
             });
         } catch (err) {
-          return res.status(400).send({ error: err });
+          return res
+            .status(400)
+            .send({ error: 'width and height should be a number' });
         }
       }
     } catch (e) {
